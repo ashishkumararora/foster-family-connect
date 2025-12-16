@@ -11,168 +11,392 @@ import {
   ArrowRight,
   CheckCircle2,
   AlertCircle,
+  Sparkles,
+  Heart,
+  Phone,
+  Mail,
+  MapPin,
+  ChevronRight,
+  Info,
+  Target,
+  Lightbulb,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+
+const userData = {
+  firstName: "John",
+  lastName: "Doe",
+  applicationDate: "January 15, 2026",
+  estimatedCompletion: "March 2026",
+};
+
+const journeySteps = [
+  { id: 1, name: "Inquiry Submitted", status: "completed", date: "Jan 5, 2026" },
+  { id: 2, name: "Orientation Attended", status: "completed", date: "Jan 12, 2026" },
+  { id: 3, name: "Application Submitted", status: "completed", date: "Jan 15, 2026" },
+  { id: 4, name: "Licensing Assessment", status: "in-progress", date: "In Progress" },
+  { id: 5, name: "License Approved", status: "upcoming", date: "Est. March 2026" },
+];
+
+const myTasks = [
+  { 
+    title: "Upload Financial Documents", 
+    description: "Submit proof of income and financial stability",
+    dueDate: "Feb 10, 2026",
+    priority: "high",
+    category: "documents"
+  },
+  { 
+    title: "Complete Background Check Form", 
+    description: "Fill out the criminal background check authorization",
+    dueDate: "Feb 8, 2026",
+    priority: "high",
+    category: "forms"
+  },
+  { 
+    title: "Complete Training Module 2", 
+    description: "Trauma-Informed Care training (2 hours)",
+    dueDate: "Feb 15, 2026",
+    priority: "medium",
+    category: "training"
+  },
+];
+
+const agencyTasks = [
+  { 
+    title: "Review Background Check Results", 
+    assignedTo: "Elizabeth Campbell",
+    status: "In Review",
+  },
+  { 
+    title: "Schedule Home Inspection", 
+    assignedTo: "Your Licensing Worker",
+    status: "Pending Your Documents",
+  },
+];
 
 const assessmentData = {
   id: "PRA-00012672",
   status: "In Progress",
-  licensingWorker: "Elizabeth Campbell",
+  licensingWorker: {
+    name: "Elizabeth Campbell",
+    title: "Licensing Specialist",
+    email: "elizabeth.campbell@dfcs.gov",
+    phone: "(555) 234-5678",
+  },
   dueDate: "March 18, 2026",
   completedStandards: 3,
   totalStandards: 10,
 };
 
-const recentTasks = [
-  { title: "Pass Background Check", status: "pending", dueIn: "5 days" },
-  { title: "Upload Financial Documents", status: "pending", dueIn: "7 days" },
-  { title: "Complete Training Module 1", status: "completed", dueIn: null },
-];
-
 export default function DashboardPage() {
   const progressPercent = (assessmentData.completedStandards / assessmentData.totalStandards) * 100;
+  const currentStep = journeySteps.findIndex(s => s.status === "in-progress") + 1;
 
   return (
     <DashboardLayout>
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Welcome Section */}
-        <div className="animate-fade-in">
-          <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">
-            Welcome back, John!
-          </h1>
-          <p className="text-muted-foreground">
-            Track your progress and complete your licensing requirements.
-          </p>
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Welcome Hero Section */}
+        <div className="relative bg-gradient-to-br from-primary via-primary to-primary-light rounded-2xl p-8 text-primary-foreground overflow-hidden animate-fade-in">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-5 h-5 text-accent" />
+              <span className="text-sm font-medium text-primary-foreground/80">Your Journey to Fostering</span>
+            </div>
+            
+            <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">
+              Welcome back, {userData.firstName}!
+            </h1>
+            
+            <p className="text-lg text-primary-foreground/90 max-w-2xl mb-6">
+              You're making wonderful progress on your path to becoming a foster parent. 
+              Every step you complete brings you closer to providing a loving home to a child in need.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-xl px-4 py-3">
+                <p className="text-xs text-primary-foreground/70 mb-1">Application Started</p>
+                <p className="font-semibold">{userData.applicationDate}</p>
+              </div>
+              <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-xl px-4 py-3">
+                <p className="text-xs text-primary-foreground/70 mb-1">Estimated Completion</p>
+                <p className="font-semibold">{userData.estimatedCompletion}</p>
+              </div>
+              <div className="bg-accent/20 backdrop-blur-sm rounded-xl px-4 py-3">
+                <p className="text-xs text-primary-foreground/70 mb-1">Current Step</p>
+                <p className="font-semibold">Step {currentStep} of {journeySteps.length}</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Status Cards */}
-        <div className="grid md:grid-cols-3 gap-4 animate-fade-in" style={{ animationDelay: "100ms" }}>
-          <div className="bg-card rounded-xl p-6 shadow-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                <FileText className="w-6 h-6 text-primary" />
-              </div>
-              <span className="text-xs font-medium bg-accent/20 text-accent-foreground px-2 py-1 rounded-full">
-                {assessmentData.status}
-              </span>
+        {/* Journey Progress Timeline */}
+        <div className="bg-card rounded-2xl shadow-card p-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-display font-semibold text-foreground">Your Licensing Journey</h2>
+              <p className="text-muted-foreground mt-1">Track your progress through each milestone</p>
             </div>
-            <h3 className="font-semibold text-foreground mb-1">Assessment</h3>
-            <p className="text-sm text-muted-foreground">{assessmentData.id}</p>
+            <div className="hidden sm:flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-success" />
+                <span className="text-muted-foreground">Completed</span>
+              </div>
+              <div className="flex items-center gap-1.5 ml-3">
+                <div className="w-3 h-3 rounded-full bg-accent animate-pulse" />
+                <span className="text-muted-foreground">In Progress</span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-card rounded-xl p-6 shadow-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-success/10 rounded-xl flex items-center justify-center">
-                <ClipboardList className="w-6 h-6 text-success" />
-              </div>
-              <span className="text-2xl font-bold text-foreground">
-                {assessmentData.completedStandards}/{assessmentData.totalStandards}
-              </span>
-            </div>
-            <h3 className="font-semibold text-foreground mb-1">Standards Completed</h3>
-            <Progress value={progressPercent} className="h-2 mt-2" />
-          </div>
+          <div className="relative">
+            {/* Progress Line */}
+            <div className="absolute top-5 left-5 right-5 h-0.5 bg-muted hidden md:block" />
+            <div 
+              className="absolute top-5 left-5 h-0.5 bg-success hidden md:block transition-all duration-500"
+              style={{ width: `${((currentStep - 1) / (journeySteps.length - 1)) * 100}%` }}
+            />
 
-          <div className="bg-card rounded-xl p-6 shadow-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-warning/10 rounded-xl flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-warning" />
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              {journeySteps.map((step, index) => (
+                <div key={step.id} className="relative flex flex-col items-center text-center">
+                  <div className={`
+                    w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all
+                    ${step.status === 'completed' ? 'bg-success text-success-foreground' : ''}
+                    ${step.status === 'in-progress' ? 'bg-accent text-accent-foreground ring-4 ring-accent/20' : ''}
+                    ${step.status === 'upcoming' ? 'bg-muted text-muted-foreground' : ''}
+                  `}>
+                    {step.status === 'completed' ? (
+                      <CheckCircle2 className="w-5 h-5" />
+                    ) : (
+                      <span className="font-semibold">{step.id}</span>
+                    )}
+                  </div>
+                  <h3 className={`mt-3 font-medium text-sm ${step.status === 'upcoming' ? 'text-muted-foreground' : 'text-foreground'}`}>
+                    {step.name}
+                  </h3>
+                  <p className={`text-xs mt-1 ${step.status === 'in-progress' ? 'text-accent font-medium' : 'text-muted-foreground'}`}>
+                    {step.date}
+                  </p>
+                </div>
+              ))}
             </div>
-            <h3 className="font-semibold text-foreground mb-1">Due Date</h3>
-            <p className="text-sm text-muted-foreground">{assessmentData.dueDate}</p>
           </div>
         </div>
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Assessment Overview */}
-          <div className="lg:col-span-2 bg-card rounded-xl shadow-card p-6 animate-fade-in" style={{ animationDelay: "200ms" }}>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-foreground">Placement Resource Assessment</h2>
-              <Button asChild variant="outline" size="sm">
-                <Link to="/dashboard/licensing">
-                  View All
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-secondary/50 rounded-xl">
-                <User className="w-5 h-5 text-primary" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Licensing Worker</p>
-                  <p className="font-medium text-foreground">{assessmentData.licensingWorker}</p>
+          {/* My Tasks - Primary Focus */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* My Tasks Section */}
+            <div className="bg-card rounded-2xl shadow-card overflow-hidden animate-fade-in" style={{ animationDelay: "200ms" }}>
+              <div className="bg-secondary/50 px-6 py-4 border-b border-border">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-accent/20 rounded-xl flex items-center justify-center">
+                      <Target className="w-5 h-5 text-accent" />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-semibold text-foreground">My Tasks</h2>
+                      <p className="text-sm text-muted-foreground">Actions you need to complete</p>
+                    </div>
+                  </div>
+                  <span className="bg-accent text-accent-foreground text-sm font-medium px-3 py-1 rounded-full">
+                    {myTasks.length} pending
+                  </span>
                 </div>
               </div>
 
-              <div className="border-t border-border pt-4">
-                <h3 className="font-medium text-foreground mb-3">Recent Tasks</h3>
-                <div className="space-y-3">
-                  {recentTasks.map((task, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/30 transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        {task.status === "completed" ? (
-                          <CheckCircle2 className="w-5 h-5 text-success" />
-                        ) : (
-                          <AlertCircle className="w-5 h-5 text-warning" />
-                        )}
-                        <span className={task.status === "completed" ? "text-muted-foreground line-through" : "text-foreground"}>
+              <div className="p-6 space-y-4">
+                {myTasks.map((task, index) => (
+                  <div
+                    key={index}
+                    className="group p-4 rounded-xl border border-border hover:border-primary/30 hover:bg-secondary/30 transition-all cursor-pointer"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          {task.priority === 'high' && (
+                            <span className="text-xs font-medium bg-destructive/10 text-destructive px-2 py-0.5 rounded">
+                              High Priority
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
                           {task.title}
-                        </span>
+                        </h3>
+                        <p className="text-sm text-muted-foreground mt-1">{task.description}</p>
+                        <div className="flex items-center gap-2 mt-3 text-sm text-muted-foreground">
+                          <Calendar className="w-4 h-4" />
+                          <span>Due: {task.dueDate}</span>
+                        </div>
                       </div>
-                      {task.dueIn && (
-                        <span className="text-xs text-muted-foreground flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {task.dueIn}
-                        </span>
-                      )}
+                      <Button size="sm" className="shrink-0">
+                        Start
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
                     </div>
-                  ))}
+                  </div>
+                ))}
+
+                <Button asChild variant="outline" className="w-full mt-2">
+                  <Link to="/dashboard/licensing">
+                    View All Tasks
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Agency Progress Section */}
+            <div className="bg-card rounded-2xl shadow-card overflow-hidden animate-fade-in" style={{ animationDelay: "250ms" }}>
+              <div className="bg-muted/50 px-6 py-4 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <ClipboardList className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-foreground">Agency Progress</h2>
+                    <p className="text-sm text-muted-foreground">Tasks being handled by your licensing team</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 space-y-3">
+                {agencyTasks.map((task, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-4 rounded-xl bg-secondary/30 border border-border/50"
+                  >
+                    <div>
+                      <h3 className="font-medium text-foreground">{task.title}</h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Assigned to: {task.assignedTo}
+                      </p>
+                    </div>
+                    <span className="text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full">
+                      {task.status}
+                    </span>
+                  </div>
+                ))}
+
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-accent/5 border border-accent/20 mt-4">
+                  <Info className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <p className="text-sm text-muted-foreground">
+                    These tasks are being processed by your licensing team. You'll be notified when action is needed from you.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Quick Actions */}
-          <div className="space-y-4 animate-fade-in" style={{ animationDelay: "300ms" }}>
-            <div className="bg-card rounded-xl shadow-card p-6">
+          {/* Right Sidebar */}
+          <div className="space-y-6 animate-fade-in" style={{ animationDelay: "300ms" }}>
+            {/* Licensing Progress Card */}
+            <div className="bg-card rounded-2xl shadow-card p-6">
+              <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-primary" />
+                Licensing Progress
+              </h3>
+              
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-muted-foreground">Standards Completed</span>
+                  <span className="font-semibold text-foreground">
+                    {assessmentData.completedStandards}/{assessmentData.totalStandards}
+                  </span>
+                </div>
+                <Progress value={progressPercent} className="h-3" />
+              </div>
+
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center justify-between py-2 border-b border-border">
+                  <span className="text-muted-foreground">Assessment ID</span>
+                  <span className="font-medium text-foreground">{assessmentData.id}</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-border">
+                  <span className="text-muted-foreground">Target Date</span>
+                  <span className="font-medium text-foreground">{assessmentData.dueDate}</span>
+                </div>
+              </div>
+
+              <Button asChild variant="outline" className="w-full mt-4">
+                <Link to="/dashboard/licensing">
+                  View Details
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+            </div>
+
+            {/* Your Licensing Worker Card */}
+            <div className="bg-gradient-to-br from-primary to-primary-light rounded-2xl p-6 text-primary-foreground">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center text-lg font-semibold">
+                  EC
+                </div>
+                <div>
+                  <h3 className="font-semibold">{assessmentData.licensingWorker.name}</h3>
+                  <p className="text-sm text-primary-foreground/80">{assessmentData.licensingWorker.title}</p>
+                </div>
+              </div>
+
+              <p className="text-sm text-primary-foreground/80 mb-4">
+                I'm here to guide you through the licensing process. Don't hesitate to reach out with any questions!
+              </p>
+
+              <div className="space-y-2 text-sm">
+                <a 
+                  href={`mailto:${assessmentData.licensingWorker.email}`}
+                  className="flex items-center gap-2 text-primary-foreground/90 hover:text-primary-foreground transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                  {assessmentData.licensingWorker.email}
+                </a>
+                <a 
+                  href={`tel:${assessmentData.licensingWorker.phone}`}
+                  className="flex items-center gap-2 text-primary-foreground/90 hover:text-primary-foreground transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  {assessmentData.licensingWorker.phone}
+                </a>
+              </div>
+            </div>
+
+            {/* Tips & Resources */}
+            <div className="bg-accent/5 border border-accent/20 rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Lightbulb className="w-5 h-5 text-accent" />
+                <h3 className="font-semibold text-foreground">Helpful Tip</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Gathering documents early can speed up your licensing process. Start collecting financial records, 
+                medical clearances, and references now to avoid delays.
+              </p>
+              <Button variant="link" className="p-0 h-auto text-accent hover:text-accent/80">
+                View Resource Guide
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-card rounded-2xl shadow-card p-6">
               <h3 className="font-semibold text-foreground mb-4">Quick Actions</h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Button asChild variant="outline" className="w-full justify-start">
                   <Link to="/dashboard/documents">
-                    <Upload className="w-4 h-4 mr-2" />
+                    <Upload className="w-4 h-4 mr-3" />
                     Upload Documents
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="w-full justify-start">
                   <Link to="/dashboard/application">
-                    <FileText className="w-4 h-4 mr-2" />
+                    <FileText className="w-4 h-4 mr-3" />
                     View Application
                   </Link>
                 </Button>
-                <Button asChild variant="outline" className="w-full justify-start">
-                  <Link to="/dashboard/licensing">
-                    <ClipboardList className="w-4 h-4 mr-2" />
-                    Licensing Standards
-                  </Link>
-                </Button>
-              </div>
-            </div>
-
-            {/* Contact Info */}
-            <div className="bg-primary rounded-xl p-6 text-primary-foreground">
-              <h3 className="font-semibold mb-3">Need Help?</h3>
-              <p className="text-sm text-primary-foreground/80 mb-4">
-                Your licensing worker is here to assist you through the process.
-              </p>
-              <div className="text-sm">
-                <p className="font-medium">{assessmentData.licensingWorker}</p>
-                <p className="text-primary-foreground/70">elizabeth.campbell@dfcs.gov</p>
               </div>
             </div>
           </div>
