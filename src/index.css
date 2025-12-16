@@ -5,11 +5,12 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+:root {
     /* Government Blue - Trust & Authority */
     --primary: 215 70% 25%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 215 60% 45%;
+    --primary-light: 215 60% 40%;
+    --primary-dark: 215 75% 18%;
     
     /* Warm Amber - Care & Family */
     --accent: 38 92% 50%;
