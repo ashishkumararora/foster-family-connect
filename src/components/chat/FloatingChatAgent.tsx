@@ -57,10 +57,10 @@ const FloatingChatAgent = () => {
       {/* Floating Button */}
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-2xl bg-white hover:bg-gray-50 border-2 border-primary/20"
+        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-accent hover:bg-accent/90 shadow-[0_4px_20px_rgba(0,0,0,0.3)] ring-2 ring-white/50"
         size="icon"
       >
-        <MessageCircle className="h-6 w-6 text-primary" />
+        <MessageCircle className="h-6 w-6 text-accent-foreground" />
       </Button>
 
       {/* Chat Dialog */}
