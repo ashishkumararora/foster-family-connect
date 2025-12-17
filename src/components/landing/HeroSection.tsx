@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart, Phone } from "lucide-react";
+import { ArrowRight, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 export function HeroSection() {
   return <section className="relative min-h-[85vh] flex items-center gradient-hero overflow-hidden">
@@ -40,7 +40,7 @@ export function HeroSection() {
               </Button>
               <Button asChild variant="outline-light" size="xl">
                 <Link to="/login">
-                  <Phone className="w-5 h-5" />
+                  
                   Need Help?
                 </Link>
               </Button>
