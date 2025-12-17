@@ -27,9 +27,7 @@ export function HeroSection() {
             
             <p className="text-primary-foreground/80 text-lg md:text-xl mb-8 max-w-xl animate-fade-in" style={{
             animationDelay: "200ms"
-          }}>
-              Thank you for your interest in becoming a foster parent. This portal will guide you through the application process, ensuring all required information is collected and verified for approval.
-            </p>
+          }}>Thank you for your interest in becoming a foster parent. While you are here, you can get answers to all your important questions about becoming a foster parent.  This experience will also guide you through the application process, from declaring your interest through approval.</p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{
             animationDelay: "300ms"
