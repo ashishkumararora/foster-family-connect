@@ -19,6 +19,7 @@ import DocumentsPage from "./pages/DocumentsPage";
 import AccountPage from "./pages/AccountPage";
 
 import NotFound from "./pages/NotFound";
+import FloatingChatAgent from "./components/chat/FloatingChatAgent";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <FloatingChatAgent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
