@@ -8,7 +8,11 @@ export function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <Heart className="w-8 h-8 text-accent" />
-              <span className="font-display font-bold text-xl">Foster Parent Portal</span>
+              <span className="font-display font-bold text-xl">Department of Family & Children Services. Empowering families to provide safe, loving homes for children in need. 
+
+
+1-800-FOSTER-CARE
+support@fostercare.gov</span>
             </div>
             <p className="text-primary-foreground/70 max-w-md">Department of Family & Children Services. Empowering families to provide safe, loving homes for children in need.
 
