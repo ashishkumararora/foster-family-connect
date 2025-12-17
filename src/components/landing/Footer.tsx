@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { Heart, ExternalLink } from "lucide-react";
-
 export function Footer() {
-  return (
-    <footer className="bg-primary text-primary-foreground py-12">
+  return <footer className="bg-primary text-primary-foreground py-12">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Logo & Description */}
@@ -12,9 +10,11 @@ export function Footer() {
               <Heart className="w-8 h-8 text-accent" />
               <span className="font-display font-bold text-xl">Foster Parent Portal</span>
             </div>
-            <p className="text-primary-foreground/70 max-w-md">
-              Department of Family & Children Services. Empowering families to provide safe, loving homes for children in need.
-            </p>
+            <p className="text-primary-foreground/70 max-w-md">Department of Family & Children Services. Empowering families to provide safe, loving homes for children in need.
+
+
+Call Us:  1-800-FOSTER-CARE
+eMail Us: support@fostercare.gov</p>
           </div>
 
           {/* Quick Links */}
@@ -87,6 +87,5 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
